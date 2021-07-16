@@ -1,0 +1,4 @@
+---
+# tasks file for testing
+- name: Echo test
+  shell: echo test

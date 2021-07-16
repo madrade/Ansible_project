@@ -1,0 +1,7 @@
+--- 
+- name: Testing on AWX
+  hosts: 
+    - local_group
+
+  roles:
+    - testing
