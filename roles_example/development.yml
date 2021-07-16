@@ -1,0 +1,10 @@
+- name: Administrative playbook
+  hosts:
+    - development_machines
+  roles:
+    - common
+    - dev
+  vars:
+    - version: 1
+    - app: testing app 2
+    - image_dest_uri: "{{ ansible_user_dir }}/Pictures/bg.jpg"

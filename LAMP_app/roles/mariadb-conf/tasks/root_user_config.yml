@@ -1,0 +1,33 @@
+#- name: Create root passwd variable
+#  set_fact:
+#    root_passwd: "{{ openssl_output.stdout }}"
+
+#- debug:
+#    var: root_passwd
+
+    #- name: Save passwd into file
+    #  template:
+    #    src: .my.cnf.j2
+    #    dest: /root/.my.cnf
+
+- name: restart mysql
+  service:
+    name: mariadb
+    state: restarted
+  become: yes
+
+- name: Install PyMySQL
+  pip:
+    name: PyMySQL
+
+- name: "Create user and set new password for defined hosts"
+  mysql_user:
+    name: root
+    password: password
+    login_host: 172.17.0.4
+    login_user: root
+    login_password: password
+    state: present
+  become: yes
+  tags:
+    - user

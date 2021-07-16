@@ -1,0 +1,14 @@
+---
+# tasks file for dev
+- name: "Installing vim, htop, php, kazam, filezilla and bluefish"
+  apt:
+        name:
+          - docker-compose
+        state: present
+        update_cache: yes
+  become: yes
+  tags:
+        - installation
+        - software
+
+

@@ -1,0 +1,16 @@
+centos ansible_host=172.17.0.5 ansible_user=root
+
+[administrative_machines]
+debian ansible_host=172.17.0.4 ansible_user=root
+
+[management_machines]
+centos ansible_host=172.17.0.5 ansible_user=root
+
+[dev_machines]
+centos ansible_host=172.17.0.5 ansible_user=root
+debian ansible_host=172.17.0.4 ansible_user=root
+
+[linuxes]
+debian ansible_host=172.17.0.4 ansible_user=root
+centos ansible_host=172.17.0.5 ansible_user=root
+ubuntu ansible_host=172.17.0.3 ansible_user=root

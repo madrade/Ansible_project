@@ -1,0 +1,7 @@
+- name: LAMP app
+  hosts:
+    - centos
+  
+  roles:
+    - lamp_centos
+    - mariadb-conf

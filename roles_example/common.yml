@@ -1,0 +1,38 @@
+- name: Testing playbook
+  hosts:
+    - debian
+  vars:
+    - version: 1
+    - app: testing app 2
+    - image_dest_uri: "{{ ansible_user_dir }}/Pictures/bg.jpg"
+
+    - name: "Installing vim, htop, php, kazam, filezilla and bluefish"
+      apt:
+        name:     
+          - vim
+          - htop
+          - php
+          - kazam
+          - filezilla
+          - bluefish
+        state: present
+        update_cache: yes
+      become: yes
+      tags:
+        - installation
+        - software
+
+    - name: "Preparing environment"
+      file: 
+        path: "{{ ansible_user_dir }}/Pictures"
+        state: directory
+      tags:
+        - background
+
+    - name: "Downloading bg image"
+      get_url: 
+        url: https://cdn.wallpapersafari.com/55/73/ghY4rc.jpg
+        dest: "{{ image_dest_uri }}" 
+      tags:
+        - background
+

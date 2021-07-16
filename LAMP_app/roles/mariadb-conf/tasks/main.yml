@@ -1,0 +1,45 @@
+---
+# tasks file for mariadb-conf
+- name: "Prepare dir"
+  file: 
+    path: /usr/share/phpmyadmin
+    state: directory
+  tags:
+    - phpmyadmin
+      
+      #- name: "Download phpmyadmin"
+      #  get_url:
+      #    url: https://files.phpmyadmin.net/phpMyAdmin/5.1.1/phpMyAdmin-5.1.1-all-languages.tar.gz 
+      #    dest: /usr/share/phpMyAdmin/phpMyAdmin-5.1.1-all-languages.tar.gz
+      #    force: no
+      #  tags:
+      #    - phpmyadmin
+
+- name: "Unzip phpmyadmin"  
+  unarchive:
+    src: https://files.phpmyadmin.net/phpMyAdmin/5.1.1/phpMyAdmin-5.1.1-all-languages.tar.gz
+    dest: /usr/share/phpmyadmin/
+    remote_src: True
+  become: yes
+  tags:
+    - phpmyadmin
+
+- name: Add phpmyadmin.conf into apache
+  copy:
+    src: "{{ role_path }}/files/phpmyadmin.conf"
+    dest: /etc/httpd/conf.d/phpmyadmin.conf
+    mode: 0644
+  notify: restart apache
+
+- name: Generate new root passwd
+  shell: 
+    cmd: openssl rand -base64 8
+    creates: /root/.my.cnf
+  register: openssl_output
+
+- debug:
+    var: openssl_output
+
+- include: root_user_config.yml
+  #  when: openssl_output.changed
+

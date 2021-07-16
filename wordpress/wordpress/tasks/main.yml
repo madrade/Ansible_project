@@ -1,0 +1,35 @@
+---
+# tasks file for wordpress
+- name: Get wordpress checksum
+  uri:
+    url: https://wordpress.org/latest.tar.gz.sha1 
+    return_content: yes
+  register: checksum
+
+- name: Download wordpress
+  get_url:
+    url: https://wordpress.org/latest.tar.gz 
+    dest: /tmp/wordpress.tar.gz
+    checksum: "sha1:{{ checksum.content }}"
+  become: yes
+
+- name: Unarchive wordpress
+  unarchive:
+    src: /tmp/wordpress.tar.gz
+    dest: /tmp 
+    remote_src: True
+    creates: /var/www/html/wp-config.php
+  become: yes
+
+- name: Remove and create new html dir
+  file:
+    path: /var/www/html
+    state: "{{ item }}"
+  loop:
+    - absent
+    - directory
+  become: yes
+
+- name: Move wordpress to www
+  shell: mv /tmp/wordpress/* /var/www/html/
+  become: yes

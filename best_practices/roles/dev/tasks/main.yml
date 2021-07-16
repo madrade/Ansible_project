@@ -1,0 +1,15 @@
+---
+# tasks file for dev
+- name: "Installing development packages"
+  apt:
+        name:
+          - openssl
+          - curl
+        state: present
+        update_cache: yes
+  become: yes
+  tags:
+        - installation
+        - software_dev
+
+

@@ -1,0 +1,58 @@
+---
+# tasks file for lamp
+- name: Install prerequisities
+  apt:
+    name: 
+      - ca-certificates
+      - apt-transport-https
+      - software-properties-common
+    update_cache: yes
+  become: yes
+  tags:
+    - packages
+
+- name: Add ppa repo for php 8.0
+  ansible.builtin.apt_repository:
+    repo: ppa:ondrej/php
+  become: yes
+  tags:
+    - packages
+
+- name: Install LAMP
+  apt:
+    name:
+      - apache2
+      - php8.0
+      - php8.0-mysql
+      - mariadb-server
+      - mariadb-client
+    update_cache: yes
+  become: yes
+  notify: "Start services: mysql, apache2"
+
+# - name: Deploy index.html
+#   copy:
+#     src: index.html
+#     dest: /var/www/html/index.html
+#   become: yes
+#   tags:
+#     - deploy
+
+- name: Make sure that index.html does not exist
+  file:
+    path: /var/www/html/index.html
+    state: absent
+  become: yes
+  tags:
+    - deploy
+
+- name: Deploy index.php
+  copy:
+    src: index.php
+    dest: /var/www/html/index.php
+  become: yes
+  tags:
+    - deploy
+
+
+

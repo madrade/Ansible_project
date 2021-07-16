@@ -1,0 +1,11 @@
+---
+# handlers file for lamp_centos
+- name: "Start services: mariadb, apache"
+  service:
+    name: "{{ item }}"
+    state: started
+  loop:
+    - mysql
+    - httpd
+  become: yes
+

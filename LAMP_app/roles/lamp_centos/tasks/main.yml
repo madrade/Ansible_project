@@ -1,0 +1,56 @@
+---
+# tasks file for lamp_centos
+    - name: "Installing Remi Repo"
+      dnf:
+        name:
+          - https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+          - https://rpms.remirepo.net/enterprise/remi-release-8.rpm
+        state: present
+      become: yes
+      tags:
+        - php
+
+    - name: "Installing PHP"
+      dnf:
+        enablerepo: "remi,remi-php80"
+        name:
+          - php80
+          - php80-php-mysqli
+        state: latest
+        update_cache: yes
+      become: yes
+      tags:
+        - php
+
+    - name: "Install MariaDB and Apache"
+      dnf:
+        name:
+          - mariadb
+          - httpd
+        state: latest
+        update_cache: yes
+      become: yes
+      tags:
+          - mariadb-apache
+      notify: "Start services: mariadb, apache" 
+
+            #    - name: "Install Apache"
+            #      yum:
+            #        name:
+            #          - httpd
+            #        state: present
+            #        update_cache: yes
+            #      become: yes
+            #      tags:
+            #        - apache
+
+    - name: "Start httpd and mysql"
+      service: 
+        name: "{{ item }}"
+        state: started
+      loop:
+        - httpd
+        - mariadb
+      become: yes
+      tags:
+        - services

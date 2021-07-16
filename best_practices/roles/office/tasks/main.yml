@@ -1,0 +1,11 @@
+---
+# tasks file for office
+- name: Install pidgin and Libre Office
+  apt:
+        name: 
+                - pidgin
+                - libreoffice
+  become: yes
+  tags:
+        - software_office
+        - installation

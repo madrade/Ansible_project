@@ -1,0 +1,10 @@
+---
+# handlers file for lamp
+- name: "Start services: mysql, apache2"
+  service:
+    name: "{{ item }}"
+    state: started
+  loop:
+    - mysql
+    - apache2
+  become: yes

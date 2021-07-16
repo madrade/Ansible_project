@@ -1,0 +1,6 @@
+- name: LAMP app
+  hosts:
+    - ubuntu
+  
+  roles:
+    - wordpress
